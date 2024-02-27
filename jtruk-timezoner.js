@@ -1,10 +1,11 @@
 'use strict';
 
-// =================================================
-// Time shifting - blame JTRUK if this goes wrong :)
-// Demoparties / live events are very welcome to use this
+// ============================================================
+// Timezoner - Easy timezone shifting for your website visitors 
+// JTRUK 2024. Demoparties and live events are very welcome to use this
 // Please drop me a line if you do!
-// Latest version + docs: https://github.com/creativenucleus/jtruk-timezoner.js
+// Latest version, docs, contact:
+// https://github.com/creativenucleus/jtruk-timezoner.js
 
 const jtzrInit = (() => {
     // jtzr gets set by init...
@@ -123,7 +124,7 @@ const jtzrInit = (() => {
     }
 
 
-    // Send date attributes up the DOM tree - populate the parents of each element above our date markers...
+    // Send date attributes up the DOM tree - populate the parents of each element above our date markers with some temporary values...
     const datesPopulateUpwards = () => {
         document.querySelectorAll(".jtzr-date").forEach((el) => {
             const date = el.getAttribute("data-date");
@@ -149,6 +150,7 @@ const jtzrInit = (() => {
     }
 
 
+    // Read temporary date values and mix them in to make the `datetime` attributes we need for the time shifting
     const timesGrabDates = () => {  
         const dateFindInSelfOrPrevSibling = (el) => {
             do {

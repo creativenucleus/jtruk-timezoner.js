@@ -98,6 +98,10 @@ The function specified by fnTimeFormatter receives a DOM element to be set, and 
 
 This custom function should construct a string and update the DOM element itself (e.g. `el.textContent = <new time string>`).
 
+## Known Usage
+
+- [Lovebyte 2024](https://lovebyte.party)
+
 ## Contact / Requests
 
 Feel welcome to Fork for your purposes, and make reasonable Pull Requests with improvements that are documented, backward-compatible, and useful to others.
