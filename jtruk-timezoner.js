@@ -1,34 +1,62 @@
 'use strict';
 
-// ===============================================
-// Time shifting - blame JTRUK if this goes wrong!
-// In HTML, use the format:
-// <span class="jtzr-time">08:00</span>
+// =================================================
+// Time shifting - blame JTRUK if this goes wrong :)
+// Demoparties / live events are very welcome to use this
+// Please drop me a line if you do!
+// Latest version + docs: https://github.com/creativenucleus/jtruk-timezoner.js
 
 const jtzrInit = (() => {
-    // This gets set by init...
-    let PARTY_TIMEZONE_UTC = null;
+    // jtzr gets set by init...
+    const jtzr = {
+        eventTimezoneUTC: 0,
+        fnTimeFormatter: null
+    }
+
+
+    // jtzrSelectUpdated is added to the global space, so that the <select> element can call it when it changes
+    document.jtzrSelectUpdated = () => {
+        setTimezone(parseFloat(document.getElementById("jtzr-timezone-select").value));
+    }
+    
+
+    // defaultTimeFormatter is the default jtzr.fnTimeFormatter - this may be overriden with init params
+    // TimeFormatter receives a DOM element to be set, and a params object containing:
+    //  localUTCString, localIDayOfWeek, localHour, localMinute
+    //  eventUTCstring, eventIDayOfWeek
+    const defaultTimeFormatter = (el, p) => {
+        // Omit timezone string if the event timezone is the same as the local timezone
+        const utcString = (p.localUTCString == p.eventUTCstring) ? '' : ` (${p.localUTCString})`;
+
+        // Add (on [day]) if required
+        let dayString = '';
+        if (p.localIDayOfWeek != p.eventIDayOfWeek) {
+            // Decorate if the day in local timezone is different to the day in event timezone
+            const dayStringsEN = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+            dayString = ` (on ${dayStringsEN[p.localIDayOfWeek]})`;
+        }        
+
+        el.textContent = `${p.localHour.toString().padStart(2, '0')}:${p.localMinute.toString().padStart(2, '0')} ${utcString} ${dayString}`;
+    }
+    
 
     // getLocalTimezoneUTC takes a guess at our local UTC offset, provided by the browser (or OS?)
     const getLocalTimezoneUTC = () => {
         return -new Date().getTimezoneOffset() / 60;
     }
 
+
     // getTimezoneLegend converts our offset into "UTC+/-X"
     const getTimezoneLegend = (offset) => {
         return "UTC" + (offset < 0 ? offset : "+" + offset);
     }
 
-    // getDayString gets the day of the week (0-6) as a string
-    const getDayString = (d) => {
-        const dayStringsEN = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
-        return dayStringsEN[(7+d)%7];
-    }
 
-    // setTimezone takes an offset and a legend, and updates all .jtzr-time elements to reflect the new timezone
+    // setTimezone updates all the demarkated times to respect utcOffset
     const setTimezone = (utcOffset) => {
-        const hourOffset = utcOffset - PARTY_TIMEZONE_UTC;
-        const legend = hourOffset ? getTimezoneLegend(utcOffset) : '';
+        const hourOffset = utcOffset - jtzr.eventTimezoneUTC;
+        const localUTCString = getTimezoneLegend(utcOffset);
+        const eventUTCString = getTimezoneLegend(jtzr.eventTimezoneUTC);
         document.querySelectorAll(".jtzr-time").forEach((el) => {
             const datetime = el.getAttribute("data-jtzr-datetime");
             if (!datetime) {
@@ -40,30 +68,27 @@ const jtzrInit = (() => {
                 return;
             }
 
-            const localMinutes = (Number(match[4]) + hourOffset) * 60 + Number(match[5]);
-            const localMinutesWrapped = (1440 + localMinutes) % 1440;
-            const localMinute = localMinutesWrapped % 60;
-            const localHour = (localMinutesWrapped - localMinute) / 60;
+            // Add the utcOffset to the time, as minutes (to cope with x.5 and x.75 offsets)
+            const localTimeInMinutes = (Number(match[4]) + hourOffset) * 60 + Number(match[5]);
+            // Wrap the minutes around 24 hours (add 1440 to prevent negative numbers)
+            const localTimeInMinutesWrapped = (1440 + (Number(match[4]) + hourOffset) * 60 + Number(match[5])) % 1440;
+            // Split into hours and minutes
+            const localMinute = localTimeInMinutesWrapped % 60;
+            const localHour = (localTimeInMinutesWrapped - localMinute) / 60;
 
-            const partyDateTime = new Date(Date.UTC(match[1], match[2] - 1, match[3], 0, 0, 0));
+            // JS Date() is not great, so we'll just use it to see if the time has overflowed to the previous or next day...
+            const eventDateTime = new Date(Date.UTC(match[1], match[2] - 1, match[3], 0, 0, 0));
+            const eventIDayOfWeek = eventDateTime.getDay();
+            const localIDayOfWeek = (7 + eventDateTime.getDay() + (localTimeInMinutes >= 0 || -1) * Math.floor(localTimeInMinutes / 1440)) % 7;
 
-            let day = '';
-            if(localMinutes < 0) {
-                day = `(on ${getDayString(partyDateTime.getDay() - 1)})`;
-            } else if(localMinutes >= 1440) {
-                day = `(on ${getDayString(partyDateTime.getDay() + 1)})`;
-            }
-
-            el.textContent = `${localHour.toString().padStart(2, '0')}:${localMinute.toString().padStart(2, '0')} ${legend} ${day}`;
+            // Receive a formatted time string...
+            jtzr.fnTimeFormatter(el, {
+                localIDayOfWeek: localIDayOfWeek, localHour: localHour, localMinute: localMinute, localUTCString: localUTCString,
+                eventIDayOfWeek: eventIDayOfWeek, eventUTCstring: eventUTCString
+            })
         });
     }
-
-
-    // timezoneSelectUpdated is a handler for when the <select> element changes
-    document.jtzrSelectUpdated = () => {
-        setTimezone(parseFloat(document.getElementById("jtzr-timezone-select").value));
-    }
-
+    
 
     // makeTimezoneUI creates a <select> element and populates it with all the timezones
     const makeTimezoneUI = () => {
@@ -74,7 +99,7 @@ const jtzrInit = (() => {
         }
 
         let html = '';
-        html += `<option value="${PARTY_TIMEZONE_UTC}">Party Timezone: ${getTimezoneLegend(PARTY_TIMEZONE_UTC)}</option>`;
+        html += `<option value="${jtzr.eventTimezoneUTC}">Event Timezone: ${getTimezoneLegend(jtzr.eventTimezoneUTC)}</option>`;
 
         let localOffset = getLocalTimezoneUTC();
         html += `<option value="${localOffset}">Your System Timezone: ${getTimezoneLegend(localOffset)}</option>`;
@@ -90,7 +115,15 @@ const jtzrInit = (() => {
     }
 
 
-    // Send dates up the tree - populate the parents of each element above our date markers...
+    // prepareDatetimes takes our '.jtzr-time' objects and sets 'data-jtzr-datetime' attributes using the date from the nearest '.jtzr-date' attribute.
+    const prepareDatetimes = () => {
+        datesPopulateUpwards();
+        timesGrabDates();
+        datesClear();
+    }
+
+
+    // Send date attributes up the DOM tree - populate the parents of each element above our date markers...
     const datesPopulateUpwards = () => {
         document.querySelectorAll(".jtzr-date").forEach((el) => {
             const date = el.getAttribute("data-date");
@@ -99,12 +132,13 @@ const jtzrInit = (() => {
                 return;
             }
 
-            // Regex for sanity, but we won't bother checking the date is valid
+            // Basic regex for sanity, but we won't bother checking the date is a real one
             if (!date.match(/^\d{4}-\d{2}-\d{2}$/)) {
                 console.warn(".jtzr-date [data-date] attribute should be in the format 'YYYY-MM-DD'");
                 return;
             }
 
+            // Populate the parents
             let elParent = el;
             while(elParent = elParent.parentNode) {
                 if(elParent.setAttribute) { // Set an attribute on this element if we are permitted...
@@ -156,6 +190,7 @@ const jtzrInit = (() => {
     }
 
 
+    // Clear up our temporary attributes...
     const datesClear = () => {
         document.querySelectorAll("[data-jtzr-temp-date]").forEach((el) => {
             el.removeAttribute("data-jtzr-temp-date");
@@ -163,13 +198,14 @@ const jtzrInit = (() => {
     }
 
 
-    return (config = {}) => {
-        PARTY_TIMEZONE_UTC = config.utc ?? 0;
+    // This is our entry point. config is received from the user
+    const init = (config = {}) => {
+        jtzr.eventTimezoneUTC = config.utc ?? 0;
+        jtzr.fnTimeFormatter = config.fnTimeFormatter ?? defaultTimeFormatter;
 
-        datesPopulateUpwards();
-        timesGrabDates();
-        datesClear();
-
+        prepareDatetimes();
         makeTimezoneUI();
     }
+
+    return init;
 })();
