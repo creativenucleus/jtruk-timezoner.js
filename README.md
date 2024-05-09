@@ -6,7 +6,7 @@ Demoparties are very welcome to use this on their websites (please [drop me a li
 
 ## Known Deployments
 
-- [Lovebyte 2024](https://lovebyte.party)
+- [Lovebyte 2024](https://lovebyte.party/#Timetable)
 - [Outline 2024](https://outlinedemoparty.nl/timetable/)
 
 ## Overview
