@@ -4,6 +4,11 @@ A drop-in timezone handler for online schedules.
 
 Demoparties are very welcome to use this on their websites (please [drop me a line](#contact--requests) if you do!).
 
+## Known Deployments
+
+- [Lovebyte 2024](https://lovebyte.party)
+- [Outline 2024](https://outlinedemoparty.nl/timetable/)
+
 ## Overview
 
 This was created to improve the experience of live events that are enjoyed from other timezones.
@@ -21,14 +26,25 @@ Selling points are:
 
 This requires three steps:
 
-- Add attributes in the HTML to mark out dates.
+- Add an element that will be replaced by the timezone selector.
 - Wrap the times to be updated in a class.
+- Add attributes in the HTML to mark out dates.
 - Include the script and initialise it.
 
 You can additionally:
 
 - Configure how the local time is displayed.
 - Style with standard CSS.
+
+### Timezone Selector
+
+The content of this DOM element will be replaced by a dropdown selector when the script initialises.
+
+```javascript
+<span id="jtzr-ui">Times are presented in UTC+1</span>
+```
+
+I recommend the default text describes the default timezone for users who do not have JavaScript enabled.
 
 ### Time
 
@@ -42,12 +58,14 @@ This is 24-hour format, with or without leading zero, and either with colon or d
 
 Please [get in touch](#contact--requests) if you need it to support other formats.
 
+You might like to add `white-space: nowrap` to these elements in your CSS, to prevent the time from wrapping onto a new line.
+
 ### Date
 
-Add elements with a `jtzr-date` class to the document:
+Add elements with a `data-jtzr-date` attribute to the document:
 
 ```javascript
-<span class="jtzr-date" data-date="2024-05-11"></span>
+<span data-jtzr-date="2024-05-11"></span>
 ```
 
 This is required so that the script can add a day clarification, e.g. `(on Monday)`, to the end of timestamps that spill into the next or previous day.
@@ -68,7 +86,7 @@ Ensure you include your event's timezone in the initialisation:
 <script defer>
     window.onload = () => {
         jtzrInit({
-            utc: 1
+            eventUTC: 1
         });
     }
 </script>
@@ -97,10 +115,6 @@ The function specified by fnTimeFormatter receives a DOM element to be set, and 
 - `eventIDayOfWeek` - as per `localIDayOfWeek`
 
 This custom function should construct a string and update the DOM element itself (e.g. `el.textContent = <new time string>`).
-
-## Known Usage
-
-- [Lovebyte 2024](https://lovebyte.party)
 
 ## Contact / Requests
 

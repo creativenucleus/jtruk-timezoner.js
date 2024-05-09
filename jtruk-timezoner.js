@@ -95,7 +95,7 @@ const jtzrInit = (() => {
     const makeTimezoneUI = () => {
         const elTimezoneUI = document.getElementById("jtzr-ui");
         if (!elTimezoneUI) {
-            console.warn("No timezone-ui element found, cannot create UI");
+            console.warn("No jtzr-ui element found, cannot create UI");
             return;
         }
 
@@ -120,14 +120,14 @@ const jtzrInit = (() => {
     const prepareDatetimes = () => {
         datesPopulateUpwards();
         timesGrabDates();
-        datesClear();
+        clearTempAttributes();
     }
 
 
     // Send date attributes up the DOM tree - populate the parents of each element above our date markers with some temporary values...
     const datesPopulateUpwards = () => {
-        document.querySelectorAll(".jtzr-date").forEach((el) => {
-            const date = el.getAttribute("data-date");
+        [...document.querySelectorAll("[data-jtzr-date]")].reverse().forEach((el) => {
+            const date = el.getAttribute("data-jtzr-date");
             if (!date) {
                 console.warn(".jtzr-date element should have [data-date] set");
                 return;
@@ -135,7 +135,7 @@ const jtzrInit = (() => {
 
             // Basic regex for sanity, but we won't bother checking the date is a real one
             if (!date.match(/^\d{4}-\d{2}-\d{2}$/)) {
-                console.warn(".jtzr-date [data-date] attribute should be in the format 'YYYY-MM-DD'");
+                console.warn(".jtzr-date [data-jtzr-date] attribute should be in the format 'YYYY-MM-DD'");
                 return;
             }
 
@@ -174,10 +174,10 @@ const jtzrInit = (() => {
         }
         
         document.querySelectorAll(".jtzr-time").forEach((el) => {
-            const time = el.textContent;
-            const matches = time.match(/(\d{1,2})[\.:](\d{2})/);
-            if (!matches) {
-                console.warn(`jtzr-time does not match a time format [${time}]`)
+            const timeContent = el.textContent;
+            const timeMatch = timeContent.match(/(\d{1,2})[\.:](\d{2})/);
+            if (!timeMatch) {
+                console.warn(`jtzr-time does not match a time format [${timeContent}]`)
                 return;
             }
 
@@ -187,13 +187,13 @@ const jtzrInit = (() => {
                 return;
             }
 
-            el.setAttribute("data-jtzr-datetime", `${date}T${time}:00`);
+            el.setAttribute("data-jtzr-datetime", `${date}T${timeMatch[1].padStart(2, '0')}:${timeMatch[2].padStart(2, '0')}:00`);
         });
     }
 
 
     // Clear up our temporary attributes...
-    const datesClear = () => {
+    const clearTempAttributes = () => {
         document.querySelectorAll("[data-jtzr-temp-date]").forEach((el) => {
             el.removeAttribute("data-jtzr-temp-date");
         });
@@ -202,7 +202,7 @@ const jtzrInit = (() => {
 
     // This is our entry point. config is received from the user
     const init = (config = {}) => {
-        jtzr.eventTimezoneUTC = config.utc ?? 0;
+        jtzr.eventTimezoneUTC = config.eventUTC ?? 0;
         jtzr.fnTimeFormatter = config.fnTimeFormatter ?? defaultTimeFormatter;
 
         prepareDatetimes();
