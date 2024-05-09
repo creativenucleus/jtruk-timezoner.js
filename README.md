@@ -116,6 +116,11 @@ The function specified by fnTimeFormatter receives a DOM element to be set, and 
 
 This custom function should construct a string and update the DOM element itself (e.g. `el.textContent = <new time string>`).
 
+## Limitations
+
+- If the clocks change during an event (hello Revision!), this won't be represented well.
+- Complicated layouts may make it difficult for the code to figure out anchor dates (Happy to look at this if you have an example that needs fixing!)
+
 ## Contact / Requests
 
 Feel welcome to Fork for your purposes, and make reasonable Pull Requests with improvements that are documented, backward-compatible, and useful to others.
