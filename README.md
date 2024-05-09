@@ -18,7 +18,7 @@ It's a small bit of JavaScript that adds a timezone selector to a website so tha
 Selling points are:
 
 - **Progressive** - If the user has JavaScript disabled, the times will still be displayed with the default timezone.
-- **Explicit** - It is clear to the user which timezone is being displayed. I've noticed some websites (e.g. Revision 2023) automatically remap to your system timezone, which is clever but can be confusing - especially when the hosts talk about the upcoming schedule, when someone is travelling, or when people in different timezones are discussing the event.
+- **Explicit** - It is clear to the user which timezone is being displayed. I've noticed some websites (e.g. Revision 2023/4) automatically remap to your system timezone, which is clever but can be confusing - especially when the hosts talk about the upcoming schedule, when someone is travelling, or when people in different timezones are discussing the event.
 - **Configurable** - The initialisation accepts a configuration. This can be used to change how the local version of the time is displayed (and could be extended).
 - **Contained** - Just one JavaScript include. No other dependencies.
 
