@@ -14,7 +14,6 @@ const jtzrInit = (() => {
         fnTimeFormatter: null
     }
 
-
     // jtzrSelectUpdated is added to the global space, so that the <select> element can call it when it changes
     document.jtzrSelectUpdated = () => {
         setTimezone(parseFloat(document.getElementById("jtzr-timezone-select").value));
@@ -80,7 +79,8 @@ const jtzrInit = (() => {
             // JS Date() is not great, so we'll just use it to see if the time has overflowed to the previous or next day...
             const eventDateTime = new Date(Date.UTC(match[1], match[2] - 1, match[3], 0, 0, 0));
             const eventIDayOfWeek = eventDateTime.getDay();
-            const localIDayOfWeek = (7 + eventDateTime.getDay() + (localTimeInMinutes >= 0 || -1) * Math.floor(localTimeInMinutes / 1440)) % 7;
+            const daysDiff = Math.floor(localTimeInMinutes / 1440);
+            const localIDayOfWeek = (7 + eventDateTime.getDay() + daysDiff) % 7;
 
             // Receive a formatted time string...
             jtzr.fnTimeFormatter(el, {
