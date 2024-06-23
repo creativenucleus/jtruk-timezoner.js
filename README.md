@@ -8,6 +8,7 @@ Demoparties are very welcome to use this on their websites (please [drop me a li
 
 - [Lovebyte 2024](https://lovebyte.party/#Timetable)
 - [Outline 2024](https://outlinedemoparty.nl/timetable/)
+- [Shadow Party 2024](https://shadow-party.org/timetable)
 
 ## Overview
 
