@@ -11,6 +11,7 @@ Demoparties are very welcome to use this on their websites (please [drop me a li
 - [Shadow Party 2024](https://shadow-party.org/timetable)
 - [Evoke 2024](https://2024.evoke.eu/party/timetable/)
 - [Deadline 2024](https://www.demoparty.berlin/events/)
+- [Inercia 2024](https://2024.inercia.pt/en/schedule.html)
 
 ## Overview
 
