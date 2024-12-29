@@ -12,6 +12,7 @@ Demoparties are very welcome to use this on their websites (please [drop me a li
 - [Evoke 2024](https://2024.evoke.eu/party/timetable/)
 - [Deadline 2024](https://www.demoparty.berlin/events/)
 - [Inercia 2024](https://2024.inercia.pt/en/schedule.html)
+- [Field-FXmas 2024](https://field-fx.party/)
 
 ## Overview
 
