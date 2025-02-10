@@ -135,7 +135,7 @@ const jtzrInit = (() => {
 
 
     // prepareDatetimes discovers our <time> elements, setting `datetime` and `data-jtzr-anchor-date` attributes, anchoring the date
-    // to the one supplied in the nearest time element above it with a `jtzr-date` class
+    // to the one supplied in the nearest time element above it with a `jtzr-anchor-date` class
     const prepareDatetimes = () => {
         populateTempDateAnchors();
         populateTimeAttributes();
@@ -145,16 +145,16 @@ const jtzrInit = (() => {
 
     // Send date attributes up the DOM tree - populate the parents of each element above our date markers with some temporary values...
     const populateTempDateAnchors = () => {
-        [...document.querySelectorAll("time.jtzr-date")].reverse().forEach((el) => {
+        [...document.querySelectorAll("time.jtzr-anchor-date")].reverse().forEach((el) => {
             const date = el.getAttribute("datetime");
             if (!date) {
-                console.warn("time.jtzr-date element should have [datetime] set");
+                console.warn("time.jtzr-anchor-date element should have [datetime] set");
                 return;
             }
 
             // Basic regex for sanity, but we won't bother checking the date is a real one
             if (!date.match(/^\d{4}-\d{2}-\d{2}$/)) {
-                console.warn("time.jtzr-date element [datetime] attribute should be in the format 'YYYY-MM-DD'");
+                console.warn("time.jtzr-anchor-date element [datetime] attribute should be in the format 'YYYY-MM-DD'");
                 return;
             }
 
@@ -187,12 +187,12 @@ const jtzrInit = (() => {
                 if(date) {
                     return date;
                 }
-            } while(el = el.parentNode)
+            } while((el = el.parentNode) && (el != document.body))  // Stop before we hit the top
         
             return null;
         }
         
-        document.querySelectorAll("time:not(.jtzr-date)").forEach((el) => {
+        document.querySelectorAll("time:not(.jtzr-anchor-date)").forEach((el) => {
             const timeContent = el.textContent;
             const timeMatch = timeContent.match(/(\d{1,2})[\.:](\d{2})/);
             if (!timeMatch) {
@@ -202,7 +202,7 @@ const jtzrInit = (() => {
 
             let anchorDate = anchorDateFind(el);
             if(!anchorDate) {
-                console.warn("Could not find anchor date for time");
+                console.error(`Could not find anchor date for time ${timeContent}`);
                 return;
             }
             
