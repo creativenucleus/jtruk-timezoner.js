@@ -4,15 +4,18 @@ A drop-in timezone handler for online schedules.
 
 Demoparties are very welcome to use this on their websites (please [drop me a line](#contact--requests) if you do!).
 
+If you are upgrading the script, please check the [upgrade](#upgrade) instructions!
+
 ## Known Deployments
 
-- [Lovebyte 2024](https://lovebyte.party/#Timetable)
+- [Lovebyte 2024](https://lovebyte.party/2024/#Timetable)
 - [Outline 2024](https://outlinedemoparty.nl/timetable/)
 - [Shadow Party 2024](https://shadow-party.org/timetable)
 - [Evoke 2024](https://2024.evoke.eu/party/timetable/)
 - [Deadline 2024](https://www.demoparty.berlin/events/)
 - [Inercia 2024](https://2024.inercia.pt/en/schedule.html)
 - [Field-FXmas 2024](https://field-fx.party/)
+- [Lovebyte 2025](https://lovebyte.party/#Timetable)
 
 ## Overview
 
@@ -31,9 +34,9 @@ Selling points are:
 
 This requires three steps:
 
-- Add an element that will be replaced by the timezone selector.
-- Wrap the times to be updated in a class.
-- Add attributes in the HTML to mark out dates.
+- Add an element that will be replaced by the timezone dropdown `<select>`.
+- Wrap some elements to define the Anchor Dates - these are used to add 'day of week' clarifications to the times.
+- Wrap each time in the schedule with an annotated class.
 - Include the script and initialise it.
 
 You can additionally:
@@ -51,12 +54,28 @@ The content of this DOM element will be replaced by a dropdown selector when the
 
 I recommend the default text describes the default timezone for users who do not have JavaScript enabled.
 
-### Time
+### Anchor Date
 
-Wrap any times that need to automatically update in a `jtzr-time` class:
+Add elements with a `jtzr-anchor-date` class, and datetime to the document:
 
 ```javascript
-<span class="jtzr-time">10:00</span>
+<time class="jtzr-anchor-date" datetime="2025-02-15">Saturday, February 15th 2025</time>
+```
+
+This is required so that the script can add a day clarification, e.g. `(on Monday)` to the end of timestamps that spill into the next or previous day.
+
+The code parses up and sideways to find the nearest Anchor Date - it may be added to an earlier sibling element, or directly on a parent (e.g. the `table` containing the schedule).
+
+It receives a sensible date format "YYYY-MM-DD"... sorry Americans! =)
+
+The time stamps will pick up these markers from earlier in the HTML - there is an algorithm which should fit use cases - though may be fallible in exotic setups (please [let me know](#contact--requests)!).
+
+### Time
+
+Wrap any times that need to automatically update in a `time` class:
+
+```javascript
+<time>10:00</time>
 ```
 
 This is 24-hour format, with or without leading zero, and either with colon or dot as separator (i.e `08:00` and `8.00` are both acceptable).
@@ -65,21 +84,26 @@ Please [get in touch](#contact--requests) if you need it to support other format
 
 You might like to add `white-space: nowrap` to these elements in your CSS, to prevent the time from wrapping onto a new line.
 
-### Date
+You may additionally specify a `datetime` attribute, and this will override this item's Anchor Date. This is useful where an event runs late in the night, e.g.:
 
-Add elements with a `data-jtzr-date` attribute to the document:
-
-```javascript
-<span data-jtzr-date="2024-05-11"></span>
+```
+Saturday
+...
+23:00 Competition
+00:00 DJ
+01:00 End
 ```
 
-This is required so that the script can add a day clarification, e.g. `(on Monday)`, to the end of timestamps that spill into the next or previous day.
+Without defining another Anchor Node, you can specify an override in the HTML, like:
 
-It may be added to an earlier sibling element, or directly on a parent (e.g. the `table` containing the schedule).
-
-It receives a sensible date format "YYYY-MM-DD"... sorry Americans! =)
-
-The time stamps will pick up these markers from earlier in the HTML - there is an algorithm which should fit use cases - though may be fallible in exotic setups (please [let me know](#contact--requests)!).
+```html
+<time class="jtzr-anchor-date" datetime="2025-02-15">Saturday, February 15th 2025</time>
+...
+<time>00:00</time> Competition
+<time datetime="2025-02-16">00:00</time> DJ
+<time datetime="2025-02-16">01:00</time> End
+```
+(HTML incomplete for brevity!)
 
 ### Include and Boot
 
@@ -125,6 +149,14 @@ This custom function should construct a string and update the DOM element itself
 
 - If the clocks change during an event (hello Revision!), this won't be represented well.
 - Complicated layouts may make it difficult for the code to figure out anchor dates (Happy to look at this if you have an example that needs fixing!)
+
+## Upgrade
+
+### From 2024/05/24 -> 2025/02/10:
+
+Span elements have been deprecated in favour of the HTML `<time>` element. Note:
+- `<span data-jtzr-date="2025-02-15"></span>` => `<time class="jtzr-anchor-date" datetime="2025-02-15">`.
+- `<span class="jtzr-time">10:00</span>` => `<time>10:00</time>`
 
 ## Contact / Requests
 
