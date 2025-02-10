@@ -34,7 +34,7 @@ Selling points are:
 
 This requires three steps:
 
-- Add an element that will be replaced by the timezone dropdown <select>.
+- Add an element that will be replaced by the timezone dropdown `<select>`.
 - Wrap some elements to define the Anchor Dates - these are used to add 'day of week' clarifications to the times.
 - Wrap each time in the schedule with an annotated class.
 - Include the script and initialise it.
@@ -154,7 +154,7 @@ This custom function should construct a string and update the DOM element itself
 
 ### From 2024/05/24 -> 2025/02/10:
 
-Span elements have been deprecated in favour of the HTML <time> element. Note:
+Span elements have been deprecated in favour of the HTML `<time>` element. Note:
 - `<span data-jtzr-date="2025-02-15"></span>` => `<time class="jtzr-anchor-date" datetime="2025-02-15">`.
 - `<span class="jtzr-time">10:00</span>` => `<time>10:00</time>`
 
