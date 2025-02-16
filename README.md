@@ -47,7 +47,7 @@ You can additionally:
 
 ### 1) Timezone Selector
 
-The content of this DOM element will be replaced by a dropdown selector when the script initialises.
+The content of the DOM element with ID `jtzr-ui` will be replaced by a dropdown selector when the script initialises.
 
 ```javascript
 <span id="jtzr-ui">Times are presented in UTC+1</span>
@@ -104,7 +104,7 @@ Without defining another Anchor Node, you can specify an override in the HTML, l
 <time datetime="2025-02-16">00:00</time> DJ
 <time datetime="2025-02-16">01:00</time> End
 ```
-(HTML incomplete for brevity!)
+(The HTML in this example is incomplete, for brevity!)
 
 ### 4) Include and Initialise
 
