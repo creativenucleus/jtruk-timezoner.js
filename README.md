@@ -25,6 +25,7 @@ It's a small bit of JavaScript that adds a timezone selector to a website so tha
 
 Selling points are:
 
+- **Straightforward** - Integration doesn't require much more than some basic HTML tag decorations.
 - **Progressive** - If the user has JavaScript disabled, the times will still be displayed with the default timezone.
 - **Explicit** - It is clear to the user which timezone is being displayed. I've noticed some websites (e.g. Revision 2023/4) automatically remap to your system timezone, which is clever but can be confusing - especially when the hosts talk about the upcoming schedule, when someone is travelling / trying to plan arrival/departure from a different timezone, or when people in different timezones are discussing the event.
 - **Configurable** - The initialisation accepts a configuration. This can be used to change how the local version of the time is displayed (and could be extended).
@@ -32,19 +33,19 @@ Selling points are:
 
 ## Usage
 
-This requires three steps:
+This requires four steps:
 
-- Add an element that will be replaced by the timezone dropdown `<select>`.
-- Wrap some elements to define the Anchor Dates - these are used to add 'day of week' clarifications to the times.
-- Wrap each time in the schedule with an annotated class.
-- Include the script and initialise it.
+1. Add the Timezone Selector.
+1. Set up the Anchor Dates - these are used to add 'day of week' clarifications to the times.
+1. Wrap each time in the schedule with a <time> class.
+1. Include the script and initialise it.
 
 You can additionally:
 
 - Configure how the local time is displayed.
 - Style with standard CSS.
 
-### Timezone Selector
+### 1) Timezone Selector
 
 The content of this DOM element will be replaced by a dropdown selector when the script initialises.
 
@@ -54,7 +55,7 @@ The content of this DOM element will be replaced by a dropdown selector when the
 
 I recommend the default text describes the default timezone for users who do not have JavaScript enabled.
 
-### Anchor Date
+### 2) Anchor Date
 
 Add elements with a `jtzr-anchor-date` class, and datetime to the document:
 
@@ -70,7 +71,7 @@ It receives a sensible date format "YYYY-MM-DD"... sorry Americans! =)
 
 The time stamps will pick up these markers from earlier in the HTML - there is an algorithm which should fit use cases - though may be fallible in exotic setups (please [let me know](#contact--requests)!).
 
-### Time
+### 3) Time
 
 Wrap any times that need to automatically update in a `time` class:
 
@@ -105,7 +106,7 @@ Without defining another Anchor Node, you can specify an override in the HTML, l
 ```
 (HTML incomplete for brevity!)
 
-### Include and Boot
+### 4) Include and Initialise
 
 Ensure you include your event's timezone in the initialisation:
 
