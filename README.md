@@ -37,7 +37,7 @@ This requires four steps:
 
 1. Add the Timezone Selector.
 1. Set up the Anchor Dates - these are used to add 'day of week' clarifications to the times.
-1. Wrap each time in the schedule with a <time> class.
+1. Wrap each time in the schedule in a <time> element.
 1. Include the script and initialise it.
 
 You can additionally:
