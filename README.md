@@ -95,7 +95,7 @@ Saturday
 01:00 End
 ```
 
-Without defining another Anchor Node, you can specify an override in the HTML, like:
+Without defining another Anchor Date, you can specify an override in the HTML, like:
 
 ```html
 <time class="jtzr-anchor-date" datetime="2025-02-15">Saturday, February 15th 2025</time>
