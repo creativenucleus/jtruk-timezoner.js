@@ -16,6 +16,8 @@ If you are upgrading the script, please check the [upgrade](#upgrade) instructio
 - [Inercia 2024](https://2024.inercia.pt/en/schedule.html)
 - [Field-FXmas 2024](https://field-fx.party/)
 - [Lovebyte 2025](https://lovebyte.party/#Timetable)
+- [Evoke 2025](https://2025.evoke.eu/party/timetable/)
+- [Deadline 2025](https://www.demoparty.berlin/events/)
 
 ## Overview
 
