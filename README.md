@@ -123,8 +123,26 @@ Ensure you include your event's timezone in the initialisation:
             eventUTC: 1
         });
     }
-</script>
+ </script>
 ```
+
+### Using npm / Bundlers (Vite, Webpack, etc.)
+
+The library can also be installed via npm (e.g., directly from the GitHub repository) and used with modern bundlers like Vite or Webpack:
+
+```bash
+npm install jtruk/jtruk-timezoner.js
+```
+
+```javascript
+import { jtzrInit } from 'jtruk-timezoner.js';
+
+jtzrInit({
+    eventUTC: 1
+});
+```
+
+The classic `<script>` tag approach and `window.jtzrInit` global continue to work as before — this is just an additional option for modern build pipelines.
 
 ### Customisation
 
