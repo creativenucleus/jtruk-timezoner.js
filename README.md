@@ -181,6 +181,16 @@ Span elements have been deprecated in favour of the HTML `<time>` element. Note:
 - `<span data-jtzr-date="2025-02-15"></span>` => `<time class="jtzr-anchor-date" datetime="2025-02-15">`.
 - `<span class="jtzr-time">10:00</span>` => `<time>10:00</time>`
 
+## Testing
+
+(Currently) no automated tests.
+
+A standup is provided for visual inspection.
+
+In the root folder, start a web server and view the page (e.g. `python -m http.server` and visit `http://localhost:8000/manual-test/`).
+
+This may also be available via `raw.githubusercontent.com`.
+
 ## Contact / Requests
 
 Feel welcome to Fork for your purposes, and make reasonable Pull Requests with improvements that are documented, backward-compatible, and useful to others.
