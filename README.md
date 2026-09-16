@@ -189,8 +189,6 @@ A standup is provided for visual inspection.
 
 In the root folder, start a web server and view the page (e.g. `python -m http.server` and visit `http://localhost:8000/manual-test/`).
 
-This may also be available via `raw.githubusercontent.com`.
-
 ## Contact / Requests
 
 Feel welcome to Fork for your purposes, and make reasonable Pull Requests with improvements that are documented, backward-compatible, and useful to others.
