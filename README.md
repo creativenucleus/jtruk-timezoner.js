@@ -123,8 +123,26 @@ Ensure you include your event's timezone in the initialisation:
             eventUTC: 1
         });
     }
-</script>
+ </script>
 ```
+
+### Using npm / Bundlers (Vite, Webpack, etc.)
+
+The library can also be installed via npm (e.g., directly from the GitHub repository) and used with modern bundlers like Vite or Webpack:
+
+```bash
+npm install jtruk/jtruk-timezoner.js
+```
+
+```javascript
+import { jtzrInit } from 'jtruk-timezoner.js';
+
+jtzrInit({
+    eventUTC: 1
+});
+```
+
+The classic `<script>` tag approach and `window.jtzrInit` global continue to work as before — this is just an additional option for modern build pipelines.
 
 ### Customisation
 
@@ -162,6 +180,16 @@ This custom function should construct a string and update the DOM element itself
 Span elements have been deprecated in favour of the HTML `<time>` element. Note:
 - `<span data-jtzr-date="2025-02-15"></span>` => `<time class="jtzr-anchor-date" datetime="2025-02-15">`.
 - `<span class="jtzr-time">10:00</span>` => `<time>10:00</time>`
+
+## Testing
+
+(Currently) no automated tests.
+
+A standup is provided for visual inspection.
+
+In the root folder, start a web server and view the page (e.g. `python -m http.server` and visit `http://localhost:8000/manual-test/`).
+
+This may also be available via `raw.githubusercontent.com`.
 
 ## Contact / Requests
 

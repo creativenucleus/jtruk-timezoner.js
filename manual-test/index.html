@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>jtruk-timezoner.js - Test</title>
+	<style>
+		body { font-family: sans-serif; max-width: 600px; margin: 2em auto; }
+		table { border-collapse: collapse; width: 100%; }
+		th, td { border: 1px solid #ccc; padding: 0.4em 0.6em; text-align: left; }
+		th { background: #f4f4f4; }
+		div.dayblock { margin-bottom: 2em; }
+		time { white-space: nowrap; }
+		#jtzr-ui { font-weight: bold; }
+	</style>
+</head>
+<body>
+	<h1>jtruk-timezoner.js Test</h1>
+	<div id="jtzr-ui">Times are presented in UTC+1</div>
+
+	<h2>Party Schedule</h2>
+
+	<div class="dayblock">
+		<time class="jtzr-anchor-date" datetime="2026-02-14">Saturday, February 14th 2026</time>
+		<table>
+			<tr>
+				<th>Time</th>
+				<th>Event</th>
+			</tr>
+			<tr>
+				<td><time>10:00</time></td>
+				<td>Doors open</td>
+			</tr>
+			<tr>
+				<td><time>12:00</time></td>
+				<td>Compo workshop</td>
+			</tr>
+			<tr>
+				<td><time>18:00</time></td>
+				<td>Demo compo</td>
+			</tr>
+			<tr>
+				<td><time>23:30</time></td>
+				<td>Night DJ set</td>
+			</tr>
+		</table>
+	</div>
+
+	<div class="dayblock">
+		<time class="jtzr-anchor-date" datetime="2026-02-15">Sunday, February 15th 2026</time>
+		<table>
+			<tr>
+				<th>Time</th><th>Event</th>
+			</tr>
+			<tr>
+				<td><time datetime="2026-02-15">00:30</time></td>
+				<td>Late-night chillout</td>
+			</tr>
+			<tr>
+				<td><time datetime="2026-02-15">02:00</time></td>
+				<td>Doors close</td>
+			</tr>
+			<tr>
+				<td><time>11:00</time></td>
+				<td>Breakfast</td>
+			</tr>
+			<tr>
+				<td><time>14:00</time></td>
+				<td>Awards ceremony</td>
+			</tr>
+		</table>
+	</div>
+
+	<script async defer src="../jtruk-timezoner.js"></script>
+	<script defer>
+		window.onload = () => {
+			jtzrInit({ eventUTC: 2 });
+		};
+	</script>
+</body>
+</html>

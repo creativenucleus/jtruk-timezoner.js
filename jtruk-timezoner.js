@@ -6,7 +6,7 @@
 // Please drop me a line if you do!
 // Latest version, docs, contact:
 // https://github.com/creativenucleus/jtruk-timezoner.js
-// Update: 2026/08/24
+// Update: 2026/09/16
 
 const jtzrInit = (() => {
     // jtzr gets set by init...
@@ -16,7 +16,7 @@ const jtzrInit = (() => {
     }
 
     // jtzrSelectUpdated is added to the global space, so that the <select> element can call it when it changes
-    document.jtzrSelectUpdated = () => {
+    window.jtzrSelectUpdated = () => {
         setTimezone(parseFloat(document.getElementById("jtzr-timezone-select").value));
     }
     
@@ -158,7 +158,8 @@ const jtzrInit = (() => {
                 return;
             }
 
-            // Populate the parents
+            // Populate self and parents
+            el.setAttribute("data-jtzr-temp-anchor-date", date);
             let elParent = el;
             while(elParent = elParent.parentNode) {
                 if(elParent.setAttribute) { // Set an attribute on this element if we are permitted...
@@ -237,8 +238,15 @@ const jtzrInit = (() => {
         prepareDatetimes();
         makeTimezoneUI();
         // Run the selector, so that any <time>s that differ from their anchor date get decorated e.g. "(on [day])" appended.
-        document.jtzrSelectUpdated();
+        window.jtzrSelectUpdated();
     }
 
     return init;
 })();
+
+if (typeof exports === 'object' && typeof module !== 'undefined') {
+    module.exports = { jtzrInit };
+} 
+else {
+    window.jtzrInit = jtzrInit;
+}
