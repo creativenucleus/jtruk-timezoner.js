@@ -6,7 +6,7 @@
 // Please drop me a line if you do!
 // Latest version, docs, contact:
 // https://github.com/creativenucleus/jtruk-timezoner.js
-// Update: 2026/08/24
+// Update: 2026/09/16
 
 const jtzrInit = (() => {
     // jtzr gets set by init...
