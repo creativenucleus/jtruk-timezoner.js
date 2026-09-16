@@ -12,14 +12,15 @@ If you are upgrading the script, please check the [upgrade](#upgrade) instructio
 - [Outline 2024](https://outlinedemoparty.nl/timetable/)
 - [Shadow Party 2024](https://shadow-party.org/timetable)
 - [Evoke 2024](https://2024.evoke.eu/party/timetable/)
-- [Deadline 2024](https://www.demoparty.berlin/events/)
+- [Deadline 2024](https://2024.demoparty.berlin/events/)
 - [Inercia 2024](https://2024.inercia.pt/en/schedule.html)
 - [Field-FXmas 2024](https://field-fx.party/)
 - [Lovebyte 2025](https://lovebyte.party/#Timetable)
 - [Evoke 2025](https://2025.evoke.eu/party/timetable/)
-- [Deadline 2025](https://www.demoparty.berlin/events/)
+- [Deadline 2025](https://2025.demoparty.berlin/events/)
 - [Inercia 2025](https://2025.inercia.pt/en/schedule/)
 - [Evoke 2026](https://2026.evoke.eu/party/timetable/)
+- [Deadline 2026](https://www.demoparty.berlin/events/)
 
 ## Overview
 
